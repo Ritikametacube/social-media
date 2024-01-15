@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native'
 import { Input } from '@rneui/themed'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { AuthContext } from '../../Context/AuthContext';
 
 const url = 'https://b1fc-2409-40d4-19-3b5a-998-137-c3dd-5f.ngrok-free.app'
 
@@ -10,21 +11,12 @@ const CreatePost = ({ route, navigation }) => {
     const assets = route.params;
     console.log(assets)
     const [caption, setCaption] = useState("")
+    const { setCurrentUser } = useContext(AuthContext)
 
     const handleCreatePost = async () => {
         const token = await AsyncStorage.getItem("token");
-        // const response = await fetch(assets.uri)
-        // const blob = response.blob()
-
-        // console.log(blob)
-
-        // const formData = new FormData()
-        // formData.append('body', caption);
-        // formData.append('photo', blob);
-
-        // console.log({ name: assets.fileName, type: assets.type, uri: assets.uri })
         try {
-            const { data } = await axios.post(
+            await axios.post(
                 `${url}/api/post`,
                 { filename: assets.uri, caption },
                 {
@@ -33,7 +25,15 @@ const CreatePost = ({ route, navigation }) => {
                     }
                 }
             );
-            console.log("HII")
+            const { data } = await axios.get(
+                `${url}/api/user/me`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setCurrentUser(data)
             navigation.goBack()
         } catch (error) {
             console.error(error)

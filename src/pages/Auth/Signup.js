@@ -1,18 +1,21 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../../Context/AuthContext';
 
-const url = 'hhttps://b1fc-2409-40d4-19-3b5a-998-137-c3dd-5f.ngrok-free.app'
+const url = 'https://b1fc-2409-40d4-19-3b5a-998-137-c3dd-5f.ngrok-free.app'
 
 const Signup = ({ navigation }) => {
     const [formData, setFormData] = useState({ email: "", password: "", name: "", username: "" })
+    const { setCurrentUser } = useContext(AuthContext)
 
     const handleSignUp = async () => {
         try {
             const response = await axios.post(`${url}/api/signup`, { ...formData, passwordConfirm: formData.password })
             await AsyncStorage.setItem("token", response.data.token)
+            setCurrentUser(response.data)
             navigation.navigate("Bottom")
 
         } catch (error) {

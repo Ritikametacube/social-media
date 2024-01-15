@@ -14,8 +14,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 
-const Search = () => {
+
+const Search = ({ navigation }) => {
   const [image, setImage] = useState(null);
+  const [search, setSearch] = useState("");
+  const [searchUsers, setSearchUsers] = useState([])
 
   const getData = data => {
     setImage(data);
@@ -33,8 +36,28 @@ const Search = () => {
         position: 'relative',
       }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <SearchBox />
-        <SearchContent data={getData} />
+        <SearchBox setSearchUsers={setSearchUsers} search={search} setSearch={setSearch} />
+        {searchUsers.map(user => (
+          <TouchableOpacity key={user._id} onPress={e => navigation.push('FriendProfile', { userId: user._id })}>
+            <View style={{ flexDirection: "row", alignItems: "center", borderWidth: 2, borderColor: "#eee", padding: 10 }}>
+              {user?.profilePhoto ?
+                <Image
+                  source={{ uri: user.profilePhoto }}
+                  style={{ width: 50, height: 50, borderRadius: 100 }}
+                /> : <Image
+                  source={require('../../storage/images/user_image.png')}
+                  style={{ width: 50, height: 50, borderRadius: 100 }}
+                />}
+              <Text style={{ color: "black", fontSize: 15, marginLeft: 10 }}>{user.name}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </View>
+  );
+};
+
+{/* <SearchContent data={getData} />
         <TouchableOpacity
           style={{
             margin: 25,
@@ -102,9 +125,6 @@ const Search = () => {
             </View>
           </View>
         </View>
-      ) : null}
-    </View>
-  );
-};
+      ) : null} */}
 
 export default Search;

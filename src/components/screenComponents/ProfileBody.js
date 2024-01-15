@@ -92,15 +92,24 @@ export const ProfileBody = ({
           style={{
             alignItems: 'center',
           }}>
-          <Image
-            source={profileImage}
-            style={{
-              resizeMode: 'cover',
-              width: 80,
-              height: 80,
-              borderRadius: 100,
-            }}
-          />
+          {user.profilePhoto ?
+            <Image
+              source={{ uri: user.profilePhoto }}
+              style={{
+                resizeMode: 'cover',
+                width: 80,
+                height: 80,
+                borderRadius: 100,
+              }}
+            /> : <Image
+              source={require('../../storage/images/user_image.png')}
+              style={{
+                resizeMode: 'cover',
+                width: 80,
+                height: 80,
+                borderRadius: 100,
+              }}
+            />}
           <Text
             style={{
               paddingVertical: 5,

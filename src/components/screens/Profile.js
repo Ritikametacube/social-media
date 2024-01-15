@@ -59,7 +59,7 @@ const Profile = ({ navigation }) => {
           profileImage={require('../../storage/images/userProfile.png')}
         />
       </View>
-      <View>
+      {/* <View>
         <Text
           style={{
             padding: 10,
@@ -78,7 +78,7 @@ const Profile = ({ navigation }) => {
           }}>
           {circuls}
         </ScrollView>
-      </View>
+      </View> */}
       <BottomTabView navigation={navigation} />
     </View>
   );
