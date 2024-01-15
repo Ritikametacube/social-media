@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const url = 'https://3c5a-2401-4900-1c1a-79fa-b5ae-e618-8469-936.ngrok-free.app'
+const url = 'hhttps://b1fc-2409-40d4-19-3b5a-998-137-c3dd-5f.ngrok-free.app'
 
 const Signup = ({ navigation }) => {
     const [formData, setFormData] = useState({ email: "", password: "", name: "", username: "" })
